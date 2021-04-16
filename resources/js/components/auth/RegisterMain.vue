@@ -5,7 +5,7 @@
 <script>
     import { login } from '../../helpers/auth';
     export default {
-        name: "login",
+        name: "auth-register",
         data() {
             return {
                 form: {

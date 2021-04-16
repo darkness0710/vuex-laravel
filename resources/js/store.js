@@ -36,7 +36,7 @@ export default {
             state.auth_error = null;
             state.isLoggedIn = true;
             state.loading = false;
-            state.currentUser = Object.assign({}, payload.user, {token: payload.acess_token});
+            state.currentUser = Object.assign({}, payload.user, {token: payload.access_token});
             localStorage.setItem('user', JSON.stringify(state.currentUser));
         },
         loginFailed(state, payload) {
@@ -47,11 +47,53 @@ export default {
             localStorage.removeItem('user');
             state.isLoggedIn = false;
             state.currentUser = null;
+        },
+        updateCustomers(state, payload) {
+            state.customers = payload;
         }
     },
     actions: {
         login(context) {
             context.commit('login');
+        },
+        getCustomers(context) {
+            axios.get('/api/customers')
+                .then((response) => {
+                    context.commit('updateCustomers', response.data.customers);
+                });
+        },
+        getCustomer(context, customerId) {
+            return new Promise((resolve, reject) => {
+                axios.get(`/api/customers/${customerId}`)
+                    .then((response) => {
+                        resolve(response);
+                    })
+                    .catch((error) => {
+                        reject(error.response.data.errors)
+                    });
+            });
+        },
+        removeCustomer(context, customerId) {
+            return new Promise((resolve, reject) => {
+                axios.delete(`/api/customers/${customerId}`)
+                    .then((response) => {
+                        resolve(response);
+                    })
+                    .catch((error) => {
+                        reject(error.response.data.errors)
+                    });
+            });
+        },
+        updateCustomer(context, customer) {
+            return new Promise((resolve, reject) => {
+                axios.put(`/api/customers/${customer.id}`, customer)
+                    .then((response) => {
+                        resolve(response);
+                    })
+                    .catch((error) => {
+                        reject(error.response.data.errors)
+                    });
+            });
         }
     }
 }

@@ -52,7 +52,16 @@
                     .catch((error) => {
                         this.$store.commit("loginFailed", {error});
                     });
+            },
+            inputForcusEnter(event) {
+                
             }
+        },
+        mounted () {
+            // const inputs = document.querySelectorAll('input.form-control');
+            // inputs.forEach(input => {
+            //     input.addEventListener('keyup', this.inputForcusEnter);
+            // });
         },
         computed: {
             authError() {
@@ -66,8 +75,5 @@
     .error {
         text-align: center;
         color: red;
-    }
-    .mt-50 {
-        margin-top: 50px;
     }
 </style>

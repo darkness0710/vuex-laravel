@@ -19,4 +19,11 @@ Route::group(['prefix' => 'auth'], function ($router) {
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+
+});
+
+Route::group(['middleware' => 'auth:api'], function ($router) {
+	Route::resource('customers', 'CustomerController')->except([
+		'create', 'edit'
+	]);
 });
