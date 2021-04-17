@@ -1,16 +1,8 @@
 import { setAuthorization } from "./general";
+import { requestApi } from "./axios";
 
 export function login(credentials) {
-	return new Promise((res, reject) => {
-		axios.post('/api/auth/login', credentials)
-			.then((response) => {
-				setAuthorization(response.data.access_token);
-				res(response.data);
-			})
-			.catch((error) => {
-				reject('Wrong email or password!');
-			})
-	})
+	return requestApi(credentials);
 }
 
 export function getLocalUser() {

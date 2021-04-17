@@ -40,7 +40,7 @@
         name: 'headers',
         methods: {
             logout() {
-                this.$store.commit('logout');
+                this.$store.commit('auth/logout');
                 this.$router.push('/login');
             },
             activeNavigation(path) {
@@ -52,7 +52,7 @@
         },
         computed: {
             currentUser() {
-                return this.$store.getters.currentUser;
+                return this.$store.getters['auth/currentUser'];
             }
         }
     }

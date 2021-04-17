@@ -30,6 +30,8 @@
 
 <script>
     import { login } from '../../helpers/auth';
+    import { setAuthorization } from "../../helpers/general";
+
     export default {
         name: "login",
         data() {
@@ -43,29 +45,23 @@
         },
         methods: {
             authenticate() {
-                this.$store.dispatch('login');
-                login(this.$data.form)
+                this.$store.dispatch('auth/login');
+                login({method: 'post', url: '/api/auth/login', params: this.$data.form})
                     .then((res) => {
-                        this.$store.commit("loginSuccess", res);
+                        setAuthorization(res.data.access_token);
+                        this.$store.commit("auth/loginSuccess", res);
                         this.$router.push({path: '/'});
                     })
                     .catch((error) => {
-                        this.$store.commit("loginFailed", {error});
+                        this.$store.commit("auth/loginFailed", {error});
                     });
-            },
-            inputForcusEnter(event) {
-                
             }
         },
         mounted () {
-            // const inputs = document.querySelectorAll('input.form-control');
-            // inputs.forEach(input => {
-            //     input.addEventListener('keyup', this.inputForcusEnter);
-            // });
         },
         computed: {
             authError() {
-                return this.$store.getters.authError;
+                return this.$store.getters['auth/authError'];
             }
         }
     }

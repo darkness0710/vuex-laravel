@@ -1,16 +1,12 @@
-import Home from './components/Home.vue'
-
-import Login from './components/auth/Login.vue'
-import Register from './components/auth/RegisterMain.vue'
-
-import CustomerMain from './components/customers/Main.vue'
-import CustomerList from './components/customers/List.vue'
-import NewCustomer from './components/customers/New.vue'
-import EditCustomer from './components/customers/Edit.vue'
-import Customer from './components/customers/View.vue'
-
-
-import PageNotFound  from './components/structure/404.vue'
+import Home from '../components/home/Index.vue'
+import Login from '../components/auth/Login.vue'
+import Register from '../components/auth/Register.vue'
+import CustomerMain from '../components/customers/Main.vue'
+import CustomerList from '../components/customers/List.vue'
+import NewCustomer from '../components/customers/New.vue'
+import EditCustomer from '../components/customers/Edit.vue'
+import Customer from '../components/customers/View.vue'
+import PageNotFound  from '../components/layouts/errors/404.vue'
 
 export const routes = [
     {

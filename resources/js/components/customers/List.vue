@@ -37,13 +37,13 @@
     export default {
         name: 'customer-list',
         mounted() {
-            this.$store.dispatch('getCustomers');
+            this.$store.dispatch('customer/getCustomers');
         },
         methods: {
             destroy(customer) {
-                this.$store.dispatch('removeCustomer', customer.id)
+                this.$store.dispatch('customer/removeCustomer', customer.id)
                     .then((res) => {
-                        this.$store.dispatch('getCustomers');
+                        this.$store.dispatch('customer/getCustomers');
                     })
                     .catch((err) => {
                         console.log(err);
@@ -52,7 +52,7 @@
         },
         computed: {
             customers() {
-                return this.$store.getters.customers;
+                return this.$store.getters['customer/customers'];
             }
         }
     }

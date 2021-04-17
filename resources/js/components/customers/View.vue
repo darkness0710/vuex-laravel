@@ -36,7 +36,7 @@
     export default {
         name: 'view',
         created() {
-            this.$store.dispatch('getCustomer', this.$route.params.id)
+            this.$store.dispatch('customer/getCustomer', this.$route.params.id)
                 .then((res) => {
                     this.$data.customer = res.data.customer;
                 })
@@ -50,9 +50,6 @@
             };
         },
         computed: {
-            currentUser() {
-                return this.$store.getters.currentUser;
-            },
             customers() {
                 return this.$store.getters.customers;
             }

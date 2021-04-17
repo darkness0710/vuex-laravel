@@ -61,7 +61,7 @@
             };
         },
         created() {
-            this.$store.dispatch('getCustomer', this.$route.params.id)
+            this.$store.dispatch('customer/getCustomer', this.$route.params.id)
                 .then((res) => {
                     this.$data.customer = res.data.customer;
                 })
@@ -78,7 +78,7 @@
                     this.errors = errors;
                     return;
                 }
-                this.$store.dispatch('updateCustomer', this.$data.customer)
+                this.$store.dispatch('customer/updateCustomer', this.$data.customer)
                     .then((res) => {
                         this.$router.push(`/customers/${res.data.customer.id}`);
                     })

@@ -11,8 +11,8 @@
 </template>
 
 <script>
-    import Header from './Header.vue'
-    import Footer from './Footer.vue'
+    import Header from './layouts/structures/Header.vue'
+    import Footer from './layouts/structures/Footer.vue'
 
     export default {
         name: 'Main-App',

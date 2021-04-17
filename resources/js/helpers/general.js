@@ -1,16 +1,10 @@
+import { requiresAuth } from '../middleware/auth';
+
 export function initialize(store, router)
 {
-	router.beforeEach((to, from, next) => {
-		const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-		const currentUser = store.state.currentUser;
-		if (requiresAuth && !currentUser) {
-			next('/login');
-		}
-		if (to.path == '/login' && currentUser) {
-			next('/');
-		}
-		next();
-	})
+	const currentUser = store.getters['auth/currentUser'];
+
+	requiresAuth(router, store);
 
 	axios.interceptors.response.use(null, (error) => {
 		if (error.response.status == 401) {
@@ -19,8 +13,8 @@ export function initialize(store, router)
 		}
 	});
 
-	if (store.getters.currentUser) {
-        setAuthorization(store.getters.currentUser.token);
+	if (currentUser) {
+        setAuthorization(store.getters['auth/currentUser'].token);
     }
 }
 
