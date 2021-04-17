@@ -16,8 +16,11 @@ export default {
         }
     },
     actions: {
+        createCustomer(context, customer) {
+            return requestApi({method: 'post', url: '/api/customers/', params: customer});
+        },
         getCustomers(context) {
-            requestApi({method: 'get', url: 'api/customers'})
+            return requestApi({method: 'get', url: 'api/customers'})
                 .then((response) => {
                     context.commit('updateCustomers', response.data.customers);
                 });
@@ -26,26 +29,10 @@ export default {
             return requestApi({method: 'get', url: `/api/customers/${customerId}`});
         },
         removeCustomer(context, customerId) {
-            return new Promise((resolve, reject) => {
-                axios.delete(`/api/customers/${customerId}`)
-                    .then((response) => {
-                        resolve(response);
-                    })
-                    .catch((error) => {
-                        reject(error.response.data.errors)
-                    });
-            });
+            return requestApi({method: 'delete', url: `/api/customers/${customerId}`});
         },
         updateCustomer(context, customer) {
-            return new Promise((resolve, reject) => {
-                axios.put(`/api/customers/${customer.id}`, customer)
-                    .then((response) => {
-                        resolve(response);
-                    })
-                    .catch((error) => {
-                        reject(error.response.data.errors)
-                    });
-            });
+            return requestApi({method: 'put', url: `/api/customers/${customer.id}`, params: customer});
         }
     }
 }

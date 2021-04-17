@@ -2,7 +2,6 @@
     <div class="login row justify-content-center mt-50">
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header">Login Form</div>
                 <div class="card-body">
                     <form @submit.prevent="authenticate">
                         <div class="form-group row">
@@ -13,8 +12,8 @@
                             <label for="password">Password:</label>
                             <input type="password" v-model="form.password" class="form-control" placeholder="Password">
                         </div>
-                        <div class="form-group row">
-                            <input type="submit" value="Login">
+                        <div class="form-group text-center row">
+                            <input type="submit" value="Login" class="btn-block btn-primary">
                         </div>
                         <div class="form-group row" v-if="authError">
                             <p class="error">
@@ -33,7 +32,7 @@
     import { setAuthorization } from "../../helpers/general";
 
     export default {
-        name: "login",
+        name: "auth-login",
         data() {
             return {
                 form: {

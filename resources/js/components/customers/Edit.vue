@@ -48,7 +48,7 @@
 <script>
     import validate from 'validate.js';
     export default {
-        name: 'new',
+        name: 'customer-new',
         data() {
             return {
                 customer: {
@@ -80,7 +80,7 @@
                 }
                 this.$store.dispatch('customer/updateCustomer', this.$data.customer)
                     .then((res) => {
-                        this.$router.push(`/customers/${res.data.customer.id}`);
+                        this.$router.push({name:'customers.view', params: {id: res.data.customer.id, message: 'Update success!'}});
                     })
                     .catch((err) => {
                         console.log(err);

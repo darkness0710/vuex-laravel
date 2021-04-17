@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     public function login()
@@ -21,6 +23,16 @@ class AuthController extends Controller
         }
 
         return $this->respondWithToken($token);
+    }
+
+    public function register(Request $request)
+    {
+        $data = $request->only(['name', 'email', 'password', 'password_confirm']);
+        $user = User::create($data);
+
+        return response()->json([
+            'user' => $user
+        ], 200);
     }
 
     public function me()

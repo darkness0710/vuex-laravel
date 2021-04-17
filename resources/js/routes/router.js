@@ -33,7 +33,7 @@ export const routes = [
         children: [
             {
                 path: '/',
-                component: CustomerList
+                component: CustomerList,
             },
             {
                 path: 'new',
@@ -41,7 +41,9 @@ export const routes = [
             },
             {
                 path: ':id',
-                component: Customer
+                component: Customer,
+                name: 'customers.view',
+                props: true
             },
             {
                 path: ':id/edit',

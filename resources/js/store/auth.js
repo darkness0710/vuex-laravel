@@ -1,6 +1,7 @@
 import { getLocalUser } from '../helpers/auth';
 
 const user = getLocalUser();
+import { requestApi } from "../helpers/axios";
 
 export default {
     namespaced: true,
@@ -52,6 +53,9 @@ export default {
     actions: {
         login(context) {
             context.commit('login');
+        },
+        register(context, payload) {
+            return requestApi({method: 'post', url: '/api/auth/register', params: payload});
         }
     }
 }

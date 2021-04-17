@@ -47,6 +47,7 @@
 
 <script>
     import validate from 'validate.js';
+
     export default {
         name: 'new',
         data() {
@@ -68,15 +69,14 @@
         methods: {
             add() {
                 this.errors = null;
-                const constraints = this.getConstraints();
-                const errors = validate(this.$data.customer, constraints);
-                if(errors) {
+                const errors = validate(this.$data.customer, this.getConstraints());
+                if (errors) {
                     this.errors = errors;
                     return;
                 }
-                axios.post('/api/customers', this.$data.customer)
-                    .then((response) => {
-                        this.$router.push(`/customers/${response.data.customer.id}`);
+                this.$store.dispatch('customer/createCustomer', this.$data.customer)
+                    .then((res) => {
+                        this.$router.push({name:'customers.view', params: {id: res.data.customer.id, message: 'Create success!'}});
                     });
             },
             getConstraints() {
