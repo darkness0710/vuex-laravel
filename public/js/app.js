@@ -1921,6 +1921,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1945,6 +1951,10 @@ __webpack_require__.r(__webpack_exports__);
         url: '/api/auth/login',
         params: this.$data.form
       }).then(function (res) {
+        if (res === undefined) {
+          throw 'Password or email not correct!';
+        }
+
         (0,_helpers_general__WEBPACK_IMPORTED_MODULE_1__.setAuthorization)(res.data.access_token);
 
         _this.$store.commit("auth/loginSuccess", res);
@@ -1953,9 +1963,7 @@ __webpack_require__.r(__webpack_exports__);
           path: '/'
         });
       })["catch"](function (error) {
-        _this.$store.commit("auth/loginFailed", {
-          error: error
-        });
+        _this.$store.commit("auth/loginFailed", error);
       });
     }
   },
@@ -2896,7 +2904,7 @@ function initialize(store, router) {
   var currentUser = store.getters['auth/currentUser'];
   (0,_middleware_auth__WEBPACK_IMPORTED_MODULE_0__.requiresAuth)(router, store);
   axios.interceptors.response.use(null, function (error) {
-    if (error.response.status == 401) {
+    if (error.response.status == 401 && router.currentRoute.name != 'auth.login') {
       store.commit('logout');
       router.push('/login');
     }
@@ -3067,9 +3075,9 @@ var user = (0,_helpers_auth__WEBPACK_IMPORTED_MODULE_0__.getLocalUser)();
       });
       localStorage.setItem('user', JSON.stringify(state.currentUser));
     },
-    loginFailed: function loginFailed(state, payload) {
+    loginFailed: function loginFailed(state, message) {
       state.loading = false;
-      state.auth_error = payload.error;
+      state.auth_error = message;
     },
     logout: function logout(state) {
       localStorage.removeItem('user');
@@ -23744,6 +23752,26 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "login row justify-content-center mt-50" }, [
     _c("div", { staticClass: "col-md-4" }, [
+      _vm.authError
+        ? _c("div", { staticClass: "form-group" }, [
+            _c("p", { staticClass: "error" }),
+            _c(
+              "div",
+              {
+                staticClass: "alert alert-danger alert-dismissible fade show",
+                attrs: { role: "alert" }
+              },
+              [
+                _c("strong", [_vm._v(_vm._s(_vm.authError))]),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
+            ),
+            _vm._v(" "),
+            _c("p")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _vm.showMessage
         ? _c("h1", [
             _c(
@@ -23755,7 +23783,7 @@ var render = function() {
               [
                 _c("strong", [_vm._v(_vm._s(_vm.message))]),
                 _vm._v(" "),
-                _vm._m(0)
+                _vm._m(1)
               ]
             )
           ])
@@ -23828,19 +23856,7 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _vm._m(1),
-              _vm._v(" "),
-              _vm.authError
-                ? _c("div", { staticClass: "form-group row" }, [
-                    _c("p", { staticClass: "error" }, [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(_vm.authError) +
-                          "\n                        "
-                      )
-                    ])
-                  ])
-                : _vm._e()
+              _vm._m(2)
             ]
           )
         ])
@@ -23849,6 +23865,23 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

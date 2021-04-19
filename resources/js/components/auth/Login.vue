@@ -1,6 +1,16 @@
 <template>
     <div class="login row justify-content-center mt-50">
         <div class="col-md-4">
+            <div class="form-group" v-if="authError">
+                <p class="error">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      <strong>{{ authError }}</strong>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                </p>
+            </div>
             <h1 v-if="showMessage">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                   <strong>{{ message }}</strong>
@@ -23,11 +33,7 @@
                         <div class="form-group text-center row">
                             <input type="submit" value="Login" class="btn-block btn-primary">
                         </div>
-                        <div class="form-group row" v-if="authError">
-                            <p class="error">
-                                {{ authError }}
-                            </p>
-                        </div>
+                        
                     </form>
                 </div>
             </div>
@@ -56,12 +62,15 @@
                 this.$store.dispatch('auth/login');
                 login({method: 'post', url: '/api/auth/login', params: this.$data.form})
                     .then((res) => {
+                        if (res === undefined) {
+                            throw('Password or email not correct!')
+                        }
                         setAuthorization(res.data.access_token);
                         this.$store.commit("auth/loginSuccess", res);
                         this.$router.push({path: '/'});
                     })
                     .catch((error) => {
-                        this.$store.commit("auth/loginFailed", {error});
+                        this.$store.commit("auth/loginFailed", error);
                     });
             }
         },
