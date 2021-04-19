@@ -1,6 +1,14 @@
 <template>
     <div class="login row justify-content-center mt-50">
         <div class="col-md-4">
+            <h1 v-if="showMessage">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <strong>{{ message }}</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+            </h1>
             <div class="card">
                 <div class="card-body">
                     <form @submit.prevent="authenticate">
@@ -33,13 +41,14 @@
 
     export default {
         name: "auth-login",
+        props: ['message'],
         data() {
             return {
                 form: {
                     email: '',
                     password: ''
                 },
-                error: null
+                error: null,
             };
         },
         methods: {
@@ -61,6 +70,9 @@
         computed: {
             authError() {
                 return this.$store.getters['auth/authError'];
+            },
+            showMessage() {
+                return this.message && this.message.length > 0;
             }
         }
     }

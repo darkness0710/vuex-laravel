@@ -61,18 +61,21 @@
         },
         methods: {
             registerAccount() {
+                this.$router.push({name: 'auth.login', params: { message: 'Create success!' }});
+
                 this.errors = null;
                 const errors = validate(this.$data.form, this.getConstraints());
                 if (errors) {
                     this.errors = errors;
                     return;
                 }
-                this.$store.dispatch('auth/register')
+                this.$store.dispatch('auth/register', this.$data.form)
                     .then((res) => {
-                        this.$router.push({path: '/'});
+                        this.$router.push({name: 'auth.login', params: { message: 'Ok login bro!' }});
                     })
                     .catch((error) => {
-                        //
+                        console.log(error);
+                        // this.errors = errors.message;
                     });
             },
             getConstraints() {

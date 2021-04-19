@@ -11,6 +11,7 @@ import StoreCustomer from './store/customer'
 
 Vue.use(VueRouter);
 Vue.use(VueX);
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 const store = new VueX.Store({
 	modules: {

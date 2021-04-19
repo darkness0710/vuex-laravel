@@ -3,7 +3,7 @@ import { requestApi } from "../helpers/axios";
 export default {
 	namespaced: true,
     state: {
-        customers: []
+        customers: {}
     },
     getters: {
         customers(state) {
@@ -19,8 +19,8 @@ export default {
         createCustomer(context, customer) {
             return requestApi({method: 'post', url: '/api/customers/', params: customer});
         },
-        getCustomers(context) {
-            return requestApi({method: 'get', url: 'api/customers'})
+        getCustomers(context, page) {
+            return requestApi({method: 'get', url: 'api/customers', params: {page: page}})
                 .then((response) => {
                     context.commit('updateCustomers', response.data.customers);
                 });

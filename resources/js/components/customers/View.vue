@@ -7,7 +7,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-        </h1 >
+        </h1>
         <div class="customer-view" v-if="customer">
             <div class="user-img">
                 <img src="https://www.scottsdaleazestateplanning.com/wp-content/uploads/2018/01/user.png" alt="">
@@ -49,8 +49,10 @@
         created() {
             this.$store.dispatch('customer/getCustomer', this.$route.params.id)
                 .then((res) => {
-                    console.log(res.data.customer);
                     this.$data.customer = res.data.customer;
+                    if (this.$data.customer.length == 0) {
+                        throw('Record Not Found');
+                    }
                 })
                 .catch((err) => {
                     this.$router.push('/404');
