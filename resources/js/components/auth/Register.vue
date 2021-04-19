@@ -61,8 +61,6 @@
         },
         methods: {
             registerAccount() {
-                this.$router.push({name: 'auth.login', params: { message: 'Create success!' }});
-
                 this.errors = null;
                 const errors = validate(this.$data.form, this.getConstraints());
                 if (errors) {

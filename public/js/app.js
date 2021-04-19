@@ -2057,12 +2057,6 @@ __webpack_require__.r(__webpack_exports__);
     registerAccount: function registerAccount() {
       var _this = this;
 
-      this.$router.push({
-        name: 'auth.login',
-        params: {
-          message: 'Create success!'
-        }
-      });
       this.errors = null;
       var errors = validate_js__WEBPACK_IMPORTED_MODULE_0___default()(this.$data.form, this.getConstraints());
 
@@ -23777,7 +23771,7 @@ var render = function() {
             _c(
               "div",
               {
-                staticClass: "alert alert-warning alert-dismissible fade show",
+                staticClass: "alert alert-success alert-dismissible fade show",
                 attrs: { role: "alert" }
               },
               [
