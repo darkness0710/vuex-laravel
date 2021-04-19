@@ -56,7 +56,11 @@
             destroy(customer) {
                 this.$store.dispatch('customer/removeCustomer', customer.id)
                     .then((res) => {
-                        this.fetchListCustomers(this.customers.current_page);
+                        let current_page = this.customers.current_page;
+                        if (this.customers.data.length == 1) {
+                            current_page--;
+                        }
+                        this.fetchListCustomers(current_page);
                     })
                     .catch((err) => {
                     });

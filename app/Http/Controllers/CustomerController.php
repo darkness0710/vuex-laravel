@@ -9,7 +9,7 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::latest()->paginate(5);
 
         return response()->json([
             'customers' => $customers
