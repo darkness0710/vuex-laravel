@@ -2308,12 +2308,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'customer-list',
   data: function data() {
     return {
       customers: {
         data: {}
+      },
+      query: {
+        name: '',
+        email: ''
+      },
+      options: {
+        limit: 2
       }
     };
   },
@@ -2327,23 +2355,25 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('customer/removeCustomer', customer.id).then(function (res) {
         var current_page = _this.customers.current_page;
 
-        if (_this.customers.data.length == 1) {
-          current_page--;
-        }
-
-        _this.fetchListCustomers(current_page);
+        _this.fetchListCustomers({
+          page: current_page
+        });
       })["catch"](function (err) {});
     },
     getCustomers: function getCustomers(page) {
-      this.fetchListCustomers(page);
+      this.fetchListCustomers({
+        page: page
+      });
     },
-    fetchListCustomers: function fetchListCustomers() {
+    fetchListCustomers: function fetchListCustomers(payload) {
       var _this2 = this;
 
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      this.$store.dispatch('customer/getCustomers', page).then(function (res) {
+      this.$store.dispatch('customer/getCustomers', payload).then(function (res) {
         _this2.customers = _this2.$store.getters['customer/customers'];
       });
+    },
+    search: function search() {
+      this.fetchListCustomers(this.query);
     }
   },
   computed: {
@@ -2899,7 +2929,7 @@ function initialize(store, router) {
   (0,_middleware_auth__WEBPACK_IMPORTED_MODULE_0__.requiresAuth)(router, store);
   axios.interceptors.response.use(null, function (error) {
     if (error.response.status == 401 && router.currentRoute.name != 'auth.login') {
-      store.commit('logout');
+      store.commit('auth/logout');
       router.push('/login');
     }
   });
@@ -3134,13 +3164,11 @@ __webpack_require__.r(__webpack_exports__);
         params: customer
       });
     },
-    getCustomers: function getCustomers(context, page) {
+    getCustomers: function getCustomers(context, payload) {
       return (0,_helpers_axios__WEBPACK_IMPORTED_MODULE_0__.requestApi)({
         method: 'get',
         url: 'api/customers',
-        params: {
-          page: page
-        }
+        params: payload
       }).then(function (response) {
         context.commit('updateCustomers', response.data.customers);
       });
@@ -24369,14 +24397,99 @@ var render = function() {
       1
     ),
     _vm._v(" "),
+    _c("div", { staticClass: "row mb-25" }, [
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("div", { staticClass: "input-group" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.query.name,
+                expression: "query.name"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              placeholder: "Name",
+              "aria-label": "Name",
+              "aria-describedby": "basic-addon1"
+            },
+            domProps: { value: _vm.query.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.query, "name", $event.target.value)
+              }
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("div", { staticClass: "input-group" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.query.email,
+                expression: "query.email"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              placeholder: "Email",
+              "aria-label": "Email",
+              "aria-describedby": "basic-addon1"
+            },
+            domProps: { value: _vm.query.email },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.query, "email", $event.target.value)
+              }
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-info",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.search()
+              }
+            }
+          },
+          [_vm._v("Search")]
+        )
+      ])
+    ]),
+    _vm._v(" "),
     _c("table", { staticClass: "table .table-striped" }, [
-      _vm._m(0),
+      _vm._m(2),
       _vm._v(" "),
       _c(
         "tbody",
         [
           _vm.showListCustomers
-            ? [_vm._m(1)]
+            ? [_vm._m(3)]
             : _vm._l(_vm.customers.data, function(customer) {
                 return _c("tr", { key: customer.id }, [
                   _c("td", [_vm._v(_vm._s(customer.name))]),
@@ -24433,7 +24546,7 @@ var render = function() {
         _c(
           "pagination",
           {
-            attrs: { data: _vm.customers },
+            attrs: { data: _vm.customers, limit: _vm.options.limit },
             on: { "pagination-change-page": _vm.getCustomers }
           },
           [
@@ -24452,6 +24565,30 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "basic-addon1" } },
+        [_vm._v("@")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "basic-addon1" } },
+        [_vm._v("@")]
+      )
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

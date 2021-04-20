@@ -19,8 +19,8 @@ export default {
         createCustomer(context, customer) {
             return requestApi({method: 'post', url: '/api/customers/', params: customer});
         },
-        getCustomers(context, page) {
-            return requestApi({method: 'get', url: 'api/customers', params: {page: page}})
+        getCustomers(context, payload) {
+            return requestApi({method: 'get', url: 'api/customers', params: payload})
                 .then((response) => {
                     context.commit('updateCustomers', response.data.customers);
                 });

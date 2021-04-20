@@ -8,7 +8,7 @@ export function initialize(store, router)
 
 	axios.interceptors.response.use(null, (error) => {
 		if (error.response.status == 401 && router.currentRoute.name != 'auth.login') {
-			store.commit('logout');
+			store.commit('auth/logout');
 			router.push('/login');
 		}
 	});

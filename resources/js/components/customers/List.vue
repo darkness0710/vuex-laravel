@@ -3,6 +3,27 @@
         <div class="btn-wrapper">
             <router-link to="/customers/new" class="btn btn-primary btn-sm">New</router-link>
         </div>
+        <div class="row mb-25">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">@</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" v-model="query.name">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">@</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" v-model="query.email">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-info" @click.prevent="search()">Search</button>
+            </div>
+        </div>
         <table class="table .table-striped">
             <thead>
                 <th>Name</th>
@@ -31,7 +52,7 @@
             </tbody>
         </table>
         <div class="pagination justify-content-center">
-            <pagination :data="customers" @pagination-change-page="getCustomers">
+            <pagination :data="customers" :limit="options.limit" @pagination-change-page="getCustomers">
                 <span slot="prev-nav">&lt; Previous</span>
                 <span slot="next-nav">Next &gt;</span>
             </pagination>
@@ -45,8 +66,15 @@
         data() {
             return {
                 customers: {
-                    data: {}
+                    data: {},
                 },
+                query: {
+                    name: '',
+                    email: ''
+                },
+                options: {
+                    limit: 2
+                }
             }
         },
         mounted() {
@@ -57,21 +85,21 @@
                 this.$store.dispatch('customer/removeCustomer', customer.id)
                     .then((res) => {
                         let current_page = this.customers.current_page;
-                        if (this.customers.data.length == 1) {
-                            current_page--;
-                        }
-                        this.fetchListCustomers(current_page);
+                        this.fetchListCustomers({page: current_page});
                     })
                     .catch((err) => {
                     });
             },
             getCustomers(page) {
-                this.fetchListCustomers(page);
+                this.fetchListCustomers({page: page});
             },
-            fetchListCustomers(page = 1) {
-                this.$store.dispatch('customer/getCustomers', page).then((res) => {
+            fetchListCustomers(payload) {
+                this.$store.dispatch('customer/getCustomers', payload).then((res) => {
                     this.customers = this.$store.getters['customer/customers'];
                 });
+            },
+            search() {
+                this.fetchListCustomers(this.query);
             }
         },
         computed: {

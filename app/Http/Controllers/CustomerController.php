@@ -7,9 +7,14 @@ use App\Models\Customer;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::latest()->paginate(5);
+        if ($request->has('name')) {
+        }
+        $customers = Customer::whereLike('name', $request->name)
+            ->whereLike('email', $request->email)
+            ->latest()
+            ->paginate(5);
 
         return response()->json([
             'customers' => $customers
