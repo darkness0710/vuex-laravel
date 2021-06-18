@@ -15,10 +15,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // User::truncate();
-        Customer::truncate();
+        User::truncate();
+        User::factory(10)->create();
+        $user = User::first();
+        $user->update([
+            'name' => 'admin',
+            'password' => \Hash::make('admin'),
+            'email' => 'admin@gmail.com'
+        ]);
 
-        // User::factory(10)->create();
+        Customer::truncate();
         Customer::factory(100)->create();
     }
 }

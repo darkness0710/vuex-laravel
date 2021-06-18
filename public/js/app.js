@@ -2653,6 +2653,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Home',
   computed: {
@@ -25026,7 +25030,18 @@ var staticRenderFns = [
     return _c("div", { staticClass: "pricing-header mx-auto text-center" }, [
       _c("h1", { staticClass: "display-4" }, [_vm._v("Demo laravel vuex")]),
       _vm._v(" "),
-      _c("p", { staticClass: "lead" }, [_vm._v("Laravel + VueX.")])
+      _c("p", { staticClass: "lead" }, [
+        _vm._v("Laravel + VueX + Json web token")
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "lead" }, [
+        _vm._v(" Account seeder"),
+        _c("br"),
+        _vm._v("\n        email: admin@gmail.com"),
+        _c("br"),
+        _vm._v("\n        password: admin"),
+        _c("br")
+      ])
     ])
   }
 ]
